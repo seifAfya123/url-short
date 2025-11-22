@@ -9,7 +9,7 @@ export function generateHmac(value: string): string {
   return crypto
     .createHmac("sha256", secret)
     .update(value)
-    .digest("hex");
+    .digest("hex").slice(0, 6);;
 }
 
 console.log(generateHmac("hello"));
