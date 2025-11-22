@@ -1,21 +1,16 @@
-import { PrismaClient } from '@prisma/client';
-const prisma = new PrismaClient()
+import express from "express"
+import dotenv from "dotenv"
+import { errorHandler } from "./middlewares/errorHandler";
 
-async function createUrl() {
-  try {
-    const url = await prisma.url.create({
-      data: {
-        mainUrl: "asd",
-        shortUrl: "asd2",
-      },
-    });
-    // const url = await prisma.url.deleteMany()
-    console.log("Created URL:", url);
-  } catch (err) {
-    console.error("Error creating URL:", err);
-  } finally {
-    await prisma.$disconnect();
-  }
-}
+const app = express()
+app.use(express.json())
 
-createUrl();
+const PORT = process.env.PORT || 3000;
+
+app.get("/", (req, res) => {
+  res.send("Server running");
+});
+app.use(errorHandler);
+app.listen(PORT, () => {
+  console.log(`Server is listening on port ${PORT}`);
+});
